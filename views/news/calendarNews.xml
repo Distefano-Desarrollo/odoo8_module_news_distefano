@@ -1,0 +1,17 @@
+<openerp>
+    <data>
+        <record id="view_news_report_calendar" model="ir.ui.view">
+            <field name="name">news.report.calendar</field>
+            <field name="model">news.report</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendario de Noticias"
+                        date_start="start_date"
+                        date_stop="end_date"
+                        color="type_id">
+                    <field name="worker"/>
+                    <field name="type_id"/>
+                </calendar>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,17 @@
+<openerp>
+    <data>
+        <record id="view_news_tree_custom1" model="ir.ui.view">
+            <field name="name">news.tree.custom1</field>
+            <field name="model">news.report</field>
+            <field name="arch" type="xml">
+                <tree string="Noticias">
+                    <field name="worker"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="type_id"/>
+                    <field name="report_description"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
