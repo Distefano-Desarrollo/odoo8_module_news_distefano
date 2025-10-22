@@ -15,6 +15,7 @@
                         
                         <group col="4">
                             <group string="Fechas" col="2">
+                                <field name="create_date" string="Fecha de Creación" readonly="1"/>
                                 <field name="start_date" string="Fecha Inicio" required="1"/>
                                 <field name="end_date" string="Fecha Fin" required="1"/>
                             </group>
