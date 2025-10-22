@@ -1,0 +1,13 @@
+<openerp>
+    <data>
+
+        <!-- Menu -->
+        <menuitem id="menu_news" name="Noticias" sequence="10"/>
+
+        <!-- Noticias -->
+        <menuitem id="submenu_noticias_principal" name="Noticias RH" parent="menu_news"/>
+        <!-- Falta colocar restricción de acceso por grupo y definir action_noticias_internas -->
+        <menuitem id="submenu_noticias_internas" name="Noticias Internas" parent="submenu_noticias_principal"/>
+        
+    </data>
+</openerp>
