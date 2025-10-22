@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_news_type_form" model="ir.ui.view">
+            <field name="name">news.type.form</field>
+            <field name="model">news.type</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de Noticia">
+                <sheet>
+                    <group>
+                    <field name="name"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

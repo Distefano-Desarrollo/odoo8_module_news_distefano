@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Acción para el modelo news.type -->
+        <record id="action_news_type" model="ir.actions.act_window">
+        <field name="name">Gestión de Tipos de Reportes</field>
+        <field name="res_model">news.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Acción para el modelo news.report -->
+        <record id="action_news_report" model="ir.actions.act_window">
+        <field name="name">Reportes</field>
+        <field name="res_model">news.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,calendar</field>
+        </record>
+    </data>
+</openerp>

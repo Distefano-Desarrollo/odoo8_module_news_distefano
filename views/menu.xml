@@ -8,6 +8,9 @@
         <menuitem id="submenu_noticias_principal" name="Noticias RH" parent="menu_news"/>
         <!-- Falta colocar restricción de acceso por grupo y definir action_noticias_internas -->
         <menuitem id="submenu_noticias_internas" name="Noticias Internas" parent="submenu_noticias_principal"/>
-        
+        <!-- Gestión de Tipos de Reportes -->
+        <menuitem id="submenu_gestion_tipos_reportes" name="Tipos de Reportes" parent="submenu_noticias_principal" action="action_news_type"/>
+        <!-- Reportes -->
+        <menuitem id="submenu_reportes" name="Reportes" parent="submenu_noticias_principal" action="action_news_report"/>
     </data>
 </openerp>
