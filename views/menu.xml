@@ -18,6 +18,7 @@
         </record>
 
         <record id="action_noticias_calendar" model="ir.actions.act_window">
+            <field name="name">Calendario de Noticias</field>
             <field name="res_model">news.report</field>
             <field name="view_type">form</field>
             <field name="view_mode">calendar,tree,form</field>
