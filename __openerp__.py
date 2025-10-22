@@ -1,5 +1,5 @@
 {
-    'name': 'Modulo de Noticias',
+    'name': 'Modulo de Noticias empleados RRHH - Distefano',
     'version': '1.0',
     'author': 'ingekids_distefano',
     'website': '',
@@ -7,9 +7,19 @@
     'summary': 'Modulo para gestionar noticias internas de la empresa',
     'depends': ['base', 'hr','web'],
     'data':[
+        'views/new/new_tree_view.xml',
+        'views/new/new_form_view.xml',
+        'views/new/new_calendar_view.xml',
+        'views/new/new_search_view.xml',
+        'views/type/type_tree_view.xml',
+        'views/type/type_form_view.xml',
+        'views/type/type_search_view.xml',
         'views/menu.xml',
     ],
     'installable': True,
     'auto_install': False,
-    
+    'application': True,
+    'external_dependencies': {
+        'python': ['reportlab'],
+    },
 }

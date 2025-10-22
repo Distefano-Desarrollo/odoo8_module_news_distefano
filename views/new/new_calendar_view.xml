@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="new_calendar_view" model="ir.ui.view">
+            <field name="name">new.calendar_view</field>
+            <field name="model">odoo8_module_news_distefano.new</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendario de Noticias RRHH" date_start="start_date" date_stop="end_date" color="employee_id">
+                    <field name="type_id"/>
+                    <field name="employee_id"/>
+                </calendar>
+            </field>
+        </record>
+    </data>
+</openerp>

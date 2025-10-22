@@ -1,2 +1,2 @@
-import news
+import new
 import type

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="type_search_view" model="ir.ui.view">
+            <field name="name">type.search_view</field>
+            <field name="model">odoo8_module_news_distefano.type</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Tipo de Noticia">
+                    <field name="name" string="Tipo de noticia"/>
+
+                    <group expand="0" string="Agrupar Por">
+                        <filter string="Tipo - clasificacion" context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    </data>
+</openerp>

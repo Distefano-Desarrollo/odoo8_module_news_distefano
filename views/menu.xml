@@ -1,13 +1,29 @@
 <openerp>
     <data>
+        <record id="news_actions" model="ir.actions.act_window">
+            <field name="name">Noticias RRHH - empleados</field>
+            <field name="res_model">odoo8_module_news_distefano.new</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="new_tree_view"/>
+            <field name="search_view_id" ref="new_search_view"/>
+            <field name="target">current</field>
+        </record>
 
-        <!-- Menu -->
-        <menuitem id="menu_news" name="Noticias" sequence="10"/>
+        <record id="type_actions" model="ir.actions.act_window">
+            <field name="name">Tipos de Noticias</field>
+            <field name="res_model">odoo8_module_news_distefano.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="type_tree_view"/>
+            <field name="search_view_id" ref="type_search_view"/>
+            <field name="target">current</field>
+        </record>
 
-        <!-- Noticias -->
-        <menuitem id="submenu_noticias_principal" name="Noticias RH" parent="menu_news"/>
-        <!-- Falta colocar restricción de acceso por grupo y definir action_noticias_internas -->
-        <menuitem id="submenu_noticias_internas" name="Noticias Internas" parent="submenu_noticias_principal"/>
-        
+        <menuitem id="primary_menu_hr" name="Recursos Humanos" sequence="1"/>
+        <menuitem id="submenu_news" name="Gestión | Noticias" parent="primary_menu_hr"/>
+        <menuitem id="submenu_news_item" name="Noticias Internas" parent="submenu_news" action="news_actions"/>
+        <menuitem id="submenu_type" name="Gestión | Tipos de Noticias" parent="primary_menu_hr"/>
+        <menuitem id="submenu_type_item" name="Tipos de Noticias" parent="submenu_type" action="type_actions"/>
     </data>
 </openerp>
