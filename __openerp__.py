@@ -5,7 +5,7 @@
     'website': '',
     'category': 'Human Resources',
     'summary': 'Modulo para gestionar noticias internas de la empresa',
-    'depends': ['base', 'gamification_hr', 'hr', 'gamification', 'web'],
+    'depends': ['base', 'hr','web'],
     'data':[
         'views/menu.xml',
     ],
