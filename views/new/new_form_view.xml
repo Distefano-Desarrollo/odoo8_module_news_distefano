@@ -13,7 +13,6 @@
                             <field name="end_date" string="Fecha finalizacion"/>
                         </group>
                         <group>
-                            <field name="type_id" string="Tipo"/>
                             <field name="employee_id" string="Empleado"/>
                         </group>
                         <group>
