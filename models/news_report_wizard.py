@@ -11,6 +11,7 @@ from cStringIO import StringIO
 from datetime import datetime
 from reportlab.platypus import Image
 from reportlab.lib.units import inch
+from openerp.modules import get_module_resource
 
 class NewsReportWizard(models.TransientModel):
     _name = 'odoo8_module_news_distefano.news_report_wizard'
@@ -26,6 +27,16 @@ class NewsReportWizard(models.TransientModel):
     
     file_data = fields.Binary('PDF data', readonly=True)
     file_name = fields.Char('Archivo', size=64)
+    
+    @api.model
+    def default_get(self, fields_list):
+        """Selecciona automáticamente el registro base desde donde se abrió el wizard"""
+        res = super(NewsReportWizard, self).default_get(fields_list)
+        active_id = self._context.get('active_id')
+        if active_id:
+            res['new_id'] = active_id
+        return res
+
     
     @api.multi
     def generate_news_pdf(self):
@@ -43,7 +54,7 @@ class NewsReportWizard(models.TransientModel):
             elements = []
             styles = getSampleStyleSheet()
             
-            logo_path = 'odoo8_module_news_distefano/static/description/logo.png'
+            logo_path = get_module_resource('odoo8_module_news_distefano', 'static', 'description', 'logo.png')
             logo = Image(logo_path)
 
             max_width = 6 * inch   # ancho máximo
