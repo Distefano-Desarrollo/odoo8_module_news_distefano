@@ -91,15 +91,27 @@ class NewsReportWizard(models.TransientModel):
                 elements.append(Paragraph(info, info_style))
             elements.append(Spacer(1, 20))
             
+            spanish_months = {
+                1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+                5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+                9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+            }
+            
             news_by_month = {}
             for news in news_records:
                 if news.start_date:
-                    month_year = fields.Date.from_string(news.start_date).strftime("%B %Y")
+                    dt = fields.Date.from_string(news.start_date)
+                    month = dt.month
+                    year = dt.year
+                    month_year = "{} {}".format(spanish_months[month], year)
                     if month_year not in news_by_month:
                         news_by_month[month_year] = []
                     news_by_month[month_year].append(news)
             
-            sorted_months = sorted(news_by_month.keys(), key=lambda x: datetime.strptime(x, "%B %Y"))
+            sorted_months = sorted(
+                news_by_month.keys(),
+                key=lambda x: (int(x.split()[1]), list(spanish_months.values()).index(x.split()[0]))
+            )
             
             for month in sorted_months:
                 month_title = Paragraph("<b>{0}</b>".format(month), styles['Heading2'])
