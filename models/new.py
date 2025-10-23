@@ -31,3 +31,23 @@ class New(models.Model):
         required=True,
         help='Tipo de noticia.'
     )
+
+    name = fields.Char(
+        string='Código',
+        compute='generate_code',
+        store=True
+    )
+
+    @api.depends('employee_id', 'start_date')
+    def generate_code(self):
+        for rec in self:
+            if rec.employee_id:
+                nombres = rec.employee_id.name.split()
+                iniciales = ''.join([n[0].upper() for n in nombres])
+            else:
+                iniciales = 'NN'
+            año = ''
+            if rec.start_date:
+                año = str(fields.Date.from_string(rec.start_date).year)
+
+            rec.name = f"{iniciales}-{año}"

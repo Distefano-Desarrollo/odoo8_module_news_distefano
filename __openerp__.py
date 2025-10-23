@@ -7,6 +7,7 @@
     'summary': 'Modulo para gestionar noticias internas de la empresa',
     'depends': ['base', 'hr','web'],
     'data':[
+        'security/ir.model.access.csv',
         'views/new/new_tree_view.xml',
         'views/new/new_form_view.xml',
         'views/new/new_calendar_view.xml',

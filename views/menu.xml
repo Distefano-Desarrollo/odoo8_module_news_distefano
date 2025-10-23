@@ -1,6 +1,6 @@
 <openerp>
     <data>
-        <record id="news_actions" model="ir.actions.act_window">
+        <record id="new_actions" model="ir.actions.act_window">
             <field name="name">Noticias RRHH - empleados</field>
             <field name="res_model">odoo8_module_news_distefano.new</field>
             <field name="view_type">form</field>
@@ -8,6 +8,7 @@
             <field name="view_id" ref="new_tree_view"/>
             <field name="search_view_id" ref="new_search_view"/>
             <field name="target">current</field>
+            <field name="groups">hr.group_hr_manager</field>
         </record>
 
         <record id="type_actions" model="ir.actions.act_window">
@@ -18,12 +19,13 @@
             <field name="view_id" ref="type_tree_view"/>
             <field name="search_view_id" ref="type_search_view"/>
             <field name="target">current</field>
+            <field name="groups">hr.group_hr_manager</field>
         </record>
 
-        <menuitem id="primary_menu_hr" name="Recursos Humanos" sequence="1"/>
-        <menuitem id="submenu_news" name="Gestión | Noticias" parent="primary_menu_hr"/>
-        <menuitem id="submenu_news_item" name="Noticias Internas" parent="submenu_news" action="news_actions"/>
-        <menuitem id="submenu_type" name="Gestión | Tipos de Noticias" parent="primary_menu_hr"/>
-        <menuitem id="submenu_type_item" name="Tipos de Noticias" parent="submenu_type" action="type_actions"/>
+        <menuitem id="primary_menu_hr" name="Recursos Humanos" sequence="1" groups="hr.group_hr_manager"/>
+        <menuitem id="submenu_news" name="Gestión | Noticias" parent="primary_menu_hr" groups="hr.group_hr_manager"/>
+        <menuitem id="submenu_news_item" name="Noticias Internas" parent="submenu_news" action="news_actions" groups="hr.group_hr_manager"/>
+        <menuitem id="submenu_type" name="Gestión | Tipos de Noticias" parent="primary_menu_hr" groups="hr.group_hr_manager"/>
+        <menuitem id="submenu_type_item" name="Tipos de Noticias" parent="submenu_type" action="type_actions" groups="hr.group_hr_manager"/>
     </data>
 </openerp>
