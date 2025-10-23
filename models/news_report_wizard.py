@@ -42,11 +42,6 @@ class NewsReportWizard(models.TransientModel):
             elements = []
             styles = getSampleStyleSheet()
             
-            logo = Image('../static/imgs/logo.png', width=184, height=50)
-            logo.hAlign = 'CENTER'
-            elements.append(logo)
-            elements.append(Spacer(1, 20))
-            
             title_style = styles['Heading1']
             title_style.alignment = 1  # Centrado
             title = Paragraph("REPORTE DE NOTICIAS INTERNAS", title_style)
