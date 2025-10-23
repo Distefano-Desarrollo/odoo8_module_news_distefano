@@ -8,7 +8,7 @@
             <field name="view_id" ref="new_tree_view"/>
             <field name="search_view_id" ref="new_search_view"/>
             <field name="target">current</field>
-            <field name="groups">hr.group_hr_manager</field>
+            <field name="groups">base.group_hr_manager</field>
         </record>
 
         <record id="type_actions" model="ir.actions.act_window">
@@ -19,13 +19,13 @@
             <field name="view_id" ref="type_tree_view"/>
             <field name="search_view_id" ref="type_search_view"/>
             <field name="target">current</field>
-            <field name="groups">hr.group_hr_manager</field>
+            <field name="groups">base.group_hr_manager</field>
         </record>
 
-        <menuitem id="primary_menu_hr" name="Recursos Humanos" sequence="1" groups="hr.group_hr_manager"/>
-        <menuitem id="submenu_news" name="Gestión | Noticias" parent="primary_menu_hr" groups="hr.group_hr_manager"/>
-        <menuitem id="submenu_news_item" name="Noticias Internas" parent="submenu_news" action="news_actions" groups="hr.group_hr_manager"/>
-        <menuitem id="submenu_type" name="Gestión | Tipos de Noticias" parent="primary_menu_hr" groups="hr.group_hr_manager"/>
-        <menuitem id="submenu_type_item" name="Tipos de Noticias" parent="submenu_type" action="type_actions" groups="hr.group_hr_manager"/>
+        <menuitem id="primary_menu_hr" name="Recursos Humanos" sequence="1" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_news" name="Gestión | Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_news_item" name="Noticias Internas" parent="submenu_news" action="news_actions" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_type" name="Gestión | Tipos de Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_type_item" name="Tipos de Noticias" parent="submenu_type" action="type_actions" groups="base.group_hr_manager"/>
     </data>
 </openerp>
