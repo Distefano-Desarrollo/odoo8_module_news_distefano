@@ -4,9 +4,18 @@
             <field name="name">Noticias RRHH - empleados</field>
             <field name="res_model">odoo8_module_news_distefano.new</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_id" ref="new_tree_view"/>
             <field name="search_view_id" ref="new_search_view"/>
+            <field name="target">current</field>
+            <field name="groups">base.group_hr_manager</field>
+        </record>
+
+        <record id="new_actions_calendar" model="ir.actions.act_window">
+            <field name="name">Calendario de Noticias</field>
+            <field name="res_model">odoo8_module_news_distefano.new</field>
+            <field name="view_type">calendar</field>
+            <field name="view_mode">calendar</field>
             <field name="target">current</field>
             <field name="groups">base.group_hr_manager</field>
         </record>
@@ -22,10 +31,12 @@
             <field name="groups">base.group_hr_manager</field>
         </record>
 
-        <menuitem id="primary_menu_hr" name="Recursos Humanos" sequence="1" groups="base.group_hr_manager"/>
-        <menuitem id="submenu_news" name="Gestión | Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
-        <menuitem id="submenu_news_item" name="Noticias Internas" parent="submenu_news" action="new_actions" groups="base.group_hr_manager"/>
-        <menuitem id="submenu_type" name="Gestión | Tipos de Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
-        <menuitem id="submenu_type_item" name="Tipos de Noticias" parent="submenu_type" action="type_actions" groups="base.group_hr_manager"/>
+        <menuitem id="primary_menu_hr" name="Noticias R.R.H.H" sequence="1" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_news" name="Control de Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_news_item" name="Noticias Empleados" parent="submenu_news" action="new_actions" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_news_item_calendar" name="Calendario Noticias" parent="submenu_news" action="new_actions_calendar" groups="base.group_hr_manager"/>
+
+        <menuitem id="submenu_type" name="Tipos de Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_type_item" name="Clasificacion Noticias" parent="submenu_type" action="type_actions" groups="base.group_hr_manager"/>
     </data>
 </openerp>

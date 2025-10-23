@@ -16,6 +16,7 @@
         'views/type/type_form_view.xml',
         'views/type/type_search_view.xml',
         'views/menu.xml',
+        'wizard/news_report_wizard.xml',
     ],
     'installable': True,
     'auto_install': False,

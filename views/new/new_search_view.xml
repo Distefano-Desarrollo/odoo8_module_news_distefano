@@ -5,12 +5,14 @@
             <field name="name">new.search_view</field>
             <field name="model">odoo8_module_news_distefano.new</field>
             <field name="arch" type="xml">
-                <search string="Buscar Noticia">
+                <search string="Buscar registros / Noticias">
+                    <field name="name" string="Codigo"/>
                     <field name="employee_id" string="Empleado"/>
                     <field name="type_id" string="Tipo"/>
 
                     <group expand="0" string="Agrupar Por">
                         <filter string="Empleado" context="{'group_by':'employee_id'}"/>
+                        <filter string="Codigo" context="{'group_by':'name'}"/>
                         <filter string="Tipo de Noticia" context="{'group_by':'type_id'}"/>
                     </group>
                 </search>

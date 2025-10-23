@@ -5,18 +5,32 @@
             <field name="name">new.form_view</field>
             <field name="model">odoo8_module_news_distefano.new</field>
             <field name="arch" type="xml">
-                <form string="Noticia de empleado / RRHH">
+                <form string="Noticia empleado">
                     <sheet>
-                        <group>
-                            <field name="type_id" string="Tipo"/>
-                            <field name="start_date" string="Fecha inicio"/>
-                            <field name="end_date" string="Fecha finalizacion"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                            <h2>
+                                <field name="type_id" placeholder="Seleccionar tipo de noticia.." options="{'no_create': True, 'no_edit': True}"/>
+                            </h2>
+                        </div>
+
+                        <group col="4">
+                            <group string="Fechas" col="2">
+                                <field name="start_date" string="Fecha inicio" required="1"/>
+                                <field name="end_date" string="Fecha finalizacion"/>
+                            </group>
+                            <group string="Datos de empleado" col="2">
+                                <field name="employee_id" string="Empleado" placeholder="Seleccionar empleado..." options="{'no_create': True}"/>
+                                <field name="employee_id.work_email" readonly="1"/>
+                                <field name="employee_department" string = "Departamento" readonly="1"/>
+                                <field name="employee_job" string = "Cargo" readonly="1"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="employee_id" string="Empleado"/>
-                        </group>
-                        <group>
-                            <field name="description" string="Descripcion" placeholder="Informacion adicional..."/>
+
+                        <group string="Descripción de Noticia">
+                            <field name="description" placeholder="Informacion adicional..." nolabel="1" colspan="4"/>
                         </group>
                     </sheet>
                 </form>

@@ -25,6 +25,22 @@ class New(models.Model):
         help='Empleado asociado.'
     )
     
+    employee_job = fields.Many2one(
+        'hr.job',
+        string='Cargo', 
+        related='employee_id.job_id', 
+        store=False, 
+        readonly=True
+    )
+    
+    employee_department = fields.Many2one(
+        'hr.department', 
+        string='Departamento', 
+        related='employee_id.department_id', 
+        store=False, 
+        readonly=True
+    )
+    
     type_id = fields.Many2one(
         'odoo8_module_news_distefano.type',
         string='Tipo de noticia',
@@ -50,4 +66,4 @@ class New(models.Model):
             if rec.start_date:
                 year = str(fields.Date.from_string(rec.start_date).year)
 
-            rec.name = "{}-{}".format(iniciales, year)
+            rec.name = "{}{}".format(iniciales, year)
