@@ -14,7 +14,7 @@
         <record id="new_actions_calendar" model="ir.actions.act_window">
             <field name="name">Calendario de Noticias</field>
             <field name="res_model">odoo8_module_news_distefano.new</field>
-            <field name="view_type">calendar</field>
+            <field name="view_type">form</field>
             <field name="view_mode">calendar</field>
             <field name="target">current</field>
             <field name="groups">base.group_hr_manager</field>
