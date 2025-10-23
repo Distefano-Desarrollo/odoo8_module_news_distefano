@@ -6,7 +6,6 @@
             <field name="arch" type="xml">
                 <tree string="Tipos de Noticias">
                     <field name="name" string="Nombre del Tipo"/>
-                    <button name="dummy_action" string="Ver detalle" type="object" icon="gtk-zoom-in"/>
                 </tree>
             </field>
         </record>

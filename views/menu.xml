@@ -8,6 +8,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="view_news_tree_custom1"/>
+            <field name="search_view_id" ref="view_news_report_search"/>
             <field name="target">current</field>
         </record>
 

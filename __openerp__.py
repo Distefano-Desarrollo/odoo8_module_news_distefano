@@ -7,6 +7,7 @@
     'summary': 'Modulo para gestionar noticias internas de la empresa',
     'depends': ['base', 'hr','web'],
     'data':[
+        'views/news/searchNews.xml',
         'views/type/typeForm.xml',
         'views/type/treeType.xml',
         'views/news/newsForm.xml',

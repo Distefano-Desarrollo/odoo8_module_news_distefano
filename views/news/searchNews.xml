@@ -1,0 +1,28 @@
+<openerp>
+    <data>
+        <record id="view_news_report_search" model="ir.ui.view">
+            <field name="name">news.report.search</field>
+            <field name="model">news.report</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Noticias Internas">
+                    <field name="report_description" string="Descripción"/>
+                    <field name="type_id" string="Tipo de Noticia"/>
+                    <field name="worker_id" string="Empleado"/>
+                    <field name="worker_department" string="Departamento"/>
+                    <field name="start_date" string="Fecha de Inicio"/>
+                    <field name="end_date" string="Fecha de Fin"/>
+                    <filter string="Creadas Hoy" name="today_created" domain="[('creation_date','>=', (context_today()).strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                    <filter string="De Esta Semana" name="this_week" domain="[('creation_date','>=', (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Tipo de Noticia" context="{'group_by':'type_id'}"/>
+                        <filter string="Empleado" context="{'group_by':'worker_id'}"/>
+                        <filter string="Departamento" context="{'group_by':'worker_department'}"/>
+                        <filter string="Fecha de Creación" context="{'group_by':'creation_date'}"/>
+                        <filter string="Fecha de Inicio" context="{'group_by':'start_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    </data>
+</openerp>
