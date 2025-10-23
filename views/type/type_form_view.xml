@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="type_form_view" model="ir.ui.view">
+            <field name="name">type.form_view</field>
+            <field name="model">odoo8_module_news_distefano.type</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de Noticia">
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" placeholder="Nueva clasificacion" required="1" class="oe_inline"/>
+                            </h1>
+                        </div>
+
+                        <div class="oe_horizontal_separator oe_clear"/>
+                        <group string="Información General">
+                            <div class="oe_form_group">
+                                <p class="text-muted">
+                                    <strong>Propósito:</strong> Los tipos de noticias permiten categorizar las comunicaciones 
+                                    internas para una mejor organización y filtrado.
+                                </p>
+                            </div>
+                        </group>
+                        <group string="Ejemplos de Tipos Comunes">
+                            <div class="oe_form_group">
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <strong>Avisos Importantes</strong>
+                                            </td>
+                                            <td>Comunicados urgentes o críticos</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Eventos Corporativos</strong>
+                                            </td>
+                                            <td>Celebraciones, reuniones, actividades</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Recordatorios</strong>
+                                            </td>
+                                            <td>Fechas límite, procedimientos, políticas</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Reconocimientos</strong>
+                                            </td>
+                                            <td>Logros del personal, felicitaciones</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Procedimientos</strong>
+                                            </td>
+                                            <td>Nuevas políticas, cambios organizacionales</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </group>
+                        <notebook>
+                            <page string="Noticias relacionadas">
+                                <field name="news_ids" nolabel="1" readonly="1">
+                                    <tree string="Noticias">
+                                        <field name="name" string="Codigo"/>
+                                        <field name="employee_id" string="Empleado"/>
+                                        <field name="start_date" string="Inicio"/>
+                                        <field name="end_date" string="Fin"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

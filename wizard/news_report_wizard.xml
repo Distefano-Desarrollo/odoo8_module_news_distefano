@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="news_report_wizard_actions" model="ir.actions.act_window">
+            <field name="name">Reporte PDF empleado</field>
+            <field name="res_model">odoo8_module_news_distefano.news_report_wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="news_report_wizard_inherit" model="ir.ui.view">
+            <field name="name">news_report_wizard.button</field>
+            <field name="model">odoo8_module_news_distefano.new</field>
+            <field name="inherit_id" ref="odoo8_module_news_distefano.new_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="before">
+                    <button name="%(odoo8_module_news_distefano.news_report_wizard_actions)d" string="Generar PDF" type="action" class="oe_highlight" groups="base.group_hr_manager"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="news_report_wizard_form_view" model="ir.ui.view">
+            <field name="name">news_report_wizard.form</field>
+            <field name="model">odoo8_module_news_distefano.news_report_wizard</field>
+            <field name="arch" type="xml">
+                <form string="PDF de Noticias">
+                    <group>
+                        <field name="new_id"/>
+                        <field name="file_data" filename="file_name" widget="binary" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="generate_news_pdf" string="Generar reporte PDF" type="object" class="oe_highlight"/>
+                        <button string="Cerrar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

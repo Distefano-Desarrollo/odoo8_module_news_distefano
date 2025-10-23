@@ -24,8 +24,8 @@
                                     options="{'no_create': True}"/>
                                 <field name="worker_name" readonly="1"/>
                                 <field name="worker_email" readonly="1"/>
-                                <field name="worker_phone" readonly="1"/>
                                 <field name="worker_department" readonly="1"/>
+                                <field name="job_title" readonly="1" string="Cargo"/>
                             </group>
                         </group>
                         
