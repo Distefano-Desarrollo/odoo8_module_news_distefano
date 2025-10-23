@@ -18,6 +18,7 @@
         'views/menu.xml',
         'wizard/news_report_wizard.xml',
     ],
+    'images': ['static/description/icon.png'],
     'installable': True,
     'auto_install': False,
     'application': True,
