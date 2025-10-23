@@ -16,12 +16,16 @@
                         <group col="4">
                             <group string="Fechas" col="2">
                                 <field name="start_date" string="Fecha Inicio" required="1"/>
-                                <field name="end_date" string="Fecha Fin" required="1"/>
+                                <field name="end_date" string="Fecha Fin"/>
                             </group>
                             <group string="Responsable" col="2">
-                                <field name="worker" string="Empleado" 
+                                <field name="worker_id" string="Empleado" 
                                     placeholder="Seleccionar empleado..." 
                                     options="{'no_create': True}"/>
+                                <field name="worker_name" readonly="1"/>
+                                <field name="worker_email" readonly="1"/>
+                                <field name="worker_phone" readonly="1"/>
+                                <field name="worker_department" readonly="1"/>
                             </group>
                         </group>
                         
