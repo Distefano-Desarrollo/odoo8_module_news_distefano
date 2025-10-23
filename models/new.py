@@ -46,8 +46,8 @@ class New(models.Model):
                 iniciales = ''.join([n[0].upper() for n in nombres])
             else:
                 iniciales = 'NN'
-            año = ''
+            year = ''
             if rec.start_date:
-                año = str(fields.Date.from_string(rec.start_date).year)
+                year = str(fields.Date.from_string(rec.start_date).year)
 
-            rec.name = f"{iniciales}-{año}"
+            rec.name = "{}-{}".format(iniciales, year)
