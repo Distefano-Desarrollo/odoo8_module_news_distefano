@@ -24,7 +24,7 @@
 
         <menuitem id="primary_menu_hr" name="Recursos Humanos" sequence="1" groups="base.group_hr_manager"/>
         <menuitem id="submenu_news" name="Gestión | Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
-        <menuitem id="submenu_news_item" name="Noticias Internas" parent="submenu_news" action="news_actions" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_news_item" name="Noticias Internas" parent="submenu_news" action="new_actions" groups="base.group_hr_manager"/>
         <menuitem id="submenu_type" name="Gestión | Tipos de Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
         <menuitem id="submenu_type_item" name="Tipos de Noticias" parent="submenu_type" action="type_actions" groups="base.group_hr_manager"/>
     </data>
