@@ -23,7 +23,7 @@
                             </group>
                             <group string="Datos de empleado" col="2">
                                 <field name="employee_id" string="Empleado" placeholder="Seleccionar empleado..." options="{'no_create': True}"/>
-                                <field name="employee_id.work_email" readonly="1"/>
+                                <field name="employee_email" readonly="1"/>
                                 <field name="employee_department" string = "Departamento" readonly="1"/>
                                 <field name="employee_job" string = "Cargo" readonly="1"/>
                             </group>

@@ -25,6 +25,13 @@ class New(models.Model):
         help='Empleado asociado.'
     )
     
+    employee_email = fields.Char(
+        string='Email',
+        related='employee_id.work_email',
+        store=False,
+        readonly=True
+    )
+
     employee_job = fields.Many2one(
         'hr.job',
         string='Cargo', 
