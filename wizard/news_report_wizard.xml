@@ -15,7 +15,7 @@
             <field name="inherit_id" ref="odoo8_module_news_distefano.new_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet" position="before">
-                    <button name="%(odoo8_module_news_distefano.news_report_wizard)d" string="Generar PDF" type="action" class="oe_highlight" groups="base.group_hr_manager"/>
+                    <button name="%(odoo8_module_news_distefano.news_report_wizard_actions)d" string="Generar PDF" type="action" class="oe_highlight" groups="base.group_hr_manager"/>
                 </xpath>
             </field>
         </record>
