@@ -2,17 +2,16 @@
 from openerp import models, fields, api
 from openerp.exceptions import Warning
 import base64
-from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from cStringIO import StringIO
-from datetime import datetime
-from reportlab.platypus import Image
+from datetime import datetime, date
 from reportlab.lib.units import inch
 from openerp.modules import get_module_resource
-from babel.dates import format_date  
+from babel.dates import format_date
+import unicodedata
 
 class NewsReportWizard(models.TransientModel):
     _name = 'odoo8_module_news_distefano.news_report_wizard'
@@ -27,7 +26,6 @@ class NewsReportWizard(models.TransientModel):
 
     file_data = fields.Binary('PDF data', readonly=True)
     file_name = fields.Char('Archivo', size=64)
-    
     @api.model
     def default_get(self, fields_list):
         """Selecciona automáticamente el registro base desde donde se abrió el wizard"""
@@ -42,68 +40,85 @@ class NewsReportWizard(models.TransientModel):
         for wizard in self:
             news_base = wizard.new_id
             employee = news_base.employee_id
+            # Buscar todas las noticias del empleado
             news_records = self.env['odoo8_module_news_distefano.new'].search(
                 [('name', '=', news_base.name)],
                 order='start_date'
             )
-            
+            # Preparar buffer de PDF
             buffer = StringIO()
-            doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=30)
+            doc = SimpleDocTemplate(
+                buffer, pagesize=letter,
+                rightMargin=30, leftMargin=30,
+                topMargin=30, bottomMargin=30
+            )
             elements = []
             styles = getSampleStyleSheet()
-            
+
+            # Logo
             logo_path = get_module_resource('odoo8_module_news_distefano', 'static', 'description', 'logo.png')
             logo = Image(logo_path)
-
-            max_width = 6 * inch   # ancho máximo
-            max_height = 1.5 * inch  # altura máxima que consideramos profesional
-
-            if logo.imageWidth > max_width or logo.imageHeight > max_height:
-                ratio = min(max_width / logo.imageWidth, max_height / logo.imageHeight)
-                logo.drawWidth = logo.imageWidth * ratio
-                logo.drawHeight = logo.imageHeight * ratio
-            else:
-                logo.drawWidth = logo.imageWidth
-                logo.drawHeight = logo.imageHeight
-
+            max_width, max_height = 6 * inch, 1.5 * inch
+            ratio = min(max_width / logo.imageWidth, max_height / logo.imageHeight)
+            logo.drawWidth = logo.imageWidth * ratio
+            logo.drawHeight = logo.imageHeight * ratio
             logo.hAlign = 'CENTER'
             elements.append(logo)
             elements.append(Spacer(1, 12))
-            
+
+            # Título
             title_style = styles['Heading1']
-            title_style.alignment = 1  # Centrado
-            title = Paragraph("REPORTE DE NOTICIAS INTERNAS", title_style)
-            elements.append(title)
+            title_style.alignment = 1
+            elements.append(Paragraph("REPORTE DE NOTICIAS INTERNAS", title_style))
             elements.append(Spacer(1, 12))
-            
+
+            # Información del empleado
             info_style = styles['BodyText']
             employee_info = [
                 "<b>Empleado:</b> {0}".format(employee.name),
                 "<b>Código:</b> {0}".format(news_base.name),
                 "<b>Cargo:</b> {0}".format(employee.job_id.name if employee.job_id else "N/A"),
                 "<b>Departamento:</b> {0}".format(employee.department_id.name if employee.department_id else "N/A"),
-                "<b>Generado el:</b> {0}".format(datetime.now().strftime('%d/%m/%y'))
+                "<b>Generado el:</b> {0}".format(datetime.now().strftime('%d/%m/%Y'))
             ]
-
             for info in employee_info:
                 elements.append(Paragraph(info, info_style))
             elements.append(Spacer(1, 20))
-            
+
+            # Agrupar noticias por mes
             news_by_month = {}
             for news in news_records:
                 if news.start_date:
-                    month_year = format_date(fields.Date.from_string(news.start_date), format='MMMM yyyy', locale='es_ES')  # Formato en español
+                    start_dt = fields.Date.from_string(news.start_date)
+                    # Aseguramos siempre formato "octubre 2025"
+                    month_year = format_date(start_dt, "LLLL yyyy", locale='es_ES')
+                    month_year = month_year.lower()
                     if month_year not in news_by_month:
                         news_by_month[month_year] = []
                     news_by_month[month_year].append(news)
-            
-            sorted_months = sorted(news_by_month.keys(), key=lambda x: datetime.strptime(x, "%B %Y"))
-            
+
+            # Función segura de ordenamiento
+            def month_key(x):
+                meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+                partes = x.split()
+                if len(partes) == 2:
+                    nombre_mes, anio = partes
+                else:
+                    nombre_mes = partes[0]
+                    anio = str(datetime.now().year)
+                nombre_mes = unicodedata.normalize('NFD', nombre_mes).encode('ascii', 'ignore').decode('utf-8').lower().strip()
+                if nombre_mes not in meses:
+                    raise Warning(u"Mes desconocido en el formato: {0}".format(nombre_mes))
+                return (int(anio), meses.index(nombre_mes) + 1)
+
+            sorted_months = sorted(news_by_month.keys(), key=month_key)
+
+            # Contenido por mes
             for month in sorted_months:
-                month_title = Paragraph("<b>{0}</b>".format(month), styles['Heading2'])
-                elements.append(month_title)
+                elements.append(Paragraph("<b>{0}</b>".format(month.capitalize()), styles['Heading2']))
                 elements.append(Spacer(1, 10))
-                
+
                 data = [['Fecha Inicio', 'Fecha Fin', 'Tipo', 'Descripción']]
                 for news in news_by_month[month]:
                     data.append([
@@ -112,7 +127,7 @@ class NewsReportWizard(models.TransientModel):
                         news.type_id.name or "",
                         news.description or ""
                     ])
-                
+
                 table = Table(data, colWidths=[80, 80, 120, 220])
                 table.setStyle(TableStyle([
                     ('GRID', (0,0), (-1,-1), 1, colors.black),
@@ -126,19 +141,23 @@ class NewsReportWizard(models.TransientModel):
                     ('ALIGN', (0,0), (-1,-1), 'CENTER'),
                     ('FONTSIZE', (0,1), (-1,-1), 9),
                 ]))
-                
                 elements.append(table)
                 elements.append(Spacer(1, 20))
-            
+
+            # Generar PDF
             doc.build(elements)
             pdf_data = buffer.getvalue()
             buffer.close()
-            
+
+            # Guardar archivo en el wizard
             wizard.write({
                 'file_data': base64.b64encode(pdf_data),
-                'file_name': 'Noticias_{0}_{1}.pdf'.format(employee.name.replace(" ", "_"), datetime.now().strftime("%Y%m%d"))
+                'file_name': 'Noticias_{0}_{1}.pdf'.format(
+                    employee.name.replace(" ", "_"),
+                    datetime.now().strftime("%Y%m%d")
+                )
             })
-        
+        # Retornar vista del wizard con el PDF disponible
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'odoo8_module_news_distefano.news_report_wizard',
