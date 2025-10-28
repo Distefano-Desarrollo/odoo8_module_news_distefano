@@ -2,16 +2,16 @@
 from openerp import models, fields, api
 from openerp.exceptions import Warning
 import base64
-from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from cStringIO import StringIO
-from datetime import datetime
-from reportlab.platypus import Image
+from datetime import datetime, date
 from reportlab.lib.units import inch
 from openerp.modules import get_module_resource
+from babel.dates import format_date
+import unicodedata
 
 class NewsYearlyReportWizard(models.TransientModel):
     _name = 'odoo8_module_news_distefano.news_yearly_report_wizard'
@@ -27,7 +27,6 @@ class NewsYearlyReportWizard(models.TransientModel):
     
     file_data = fields.Binary('Archivo PDF (Anual)', readonly=True)
     file_name = fields.Char('Archivo', size=64)
-    
     @api.model
     def default_get(self, fields_list):
         """Selecciona automáticamente el registro base desde donde se abrió el wizard"""
@@ -36,24 +35,28 @@ class NewsYearlyReportWizard(models.TransientModel):
         if active_id:
             res['new_id'] = active_id
         return res
-
-    
     @api.multi
     def generate_employee_yearly_news_pdf(self):
         """Genera el PDF de noticias anual para un empleado agrupadas por mes"""
         for wizard in self:
             news_base = wizard.new_id
             employee = news_base.employee_id
+            # Buscar todas las noticias del empleado
             news_records = self.env['odoo8_module_news_distefano.new'].search(
                 [('name', '=', news_base.name)],
                 order='start_date'
             )
-            
+            # Preparar buffer de PDF
             buffer = StringIO()
-            doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=30)
+            doc = SimpleDocTemplate(
+                buffer, pagesize=letter,
+                rightMargin=30, leftMargin=30,
+                topMargin=30, bottomMargin=30
+            )
             elements = []
             styles = getSampleStyleSheet()
-            
+
+            # Logo
             logo_path = get_module_resource('odoo8_module_news_distefano', 'static', 'description', 'logo.png')
             logo = Image(logo_path)
 
@@ -71,13 +74,15 @@ class NewsYearlyReportWizard(models.TransientModel):
             logo.hAlign = 'CENTER'
             elements.append(logo)
             elements.append(Spacer(1, 12))
-            
+
+            # Título
             title_style = styles['Heading1']
             title_style.alignment = 1
             title = Paragraph("REPORTE DE NOTICIAS INTERNAS", title_style)
             elements.append(title)
             elements.append(Spacer(1, 12))
-            
+
+            # Información del empleado
             info_style = styles['BodyText']
             employee_info = [
                 "<b>Empleado:</b> {0}".format(employee.name),
@@ -86,7 +91,6 @@ class NewsYearlyReportWizard(models.TransientModel):
                 "<b>Departamento:</b> {0}".format(employee.department_id.name if employee.department_id else "N/A"),
                 "<b>Generado el:</b> {0}".format(datetime.now().strftime('%d/%m/%Y'))
             ]
-
             for info in employee_info:
                 elements.append(Paragraph(info, info_style))
             elements.append(Spacer(1, 20))
@@ -117,10 +121,9 @@ class NewsYearlyReportWizard(models.TransientModel):
             )
             
             for month in sorted_months:
-                month_title = Paragraph("<b>{0}</b>".format(month), styles['Heading2'])
-                elements.append(month_title)
+                elements.append(Paragraph("<b>{0}</b>".format(month.capitalize()), styles['Heading2']))
                 elements.append(Spacer(1, 10))
-                
+
                 data = [['Fecha Inicio', 'Fecha Fin', 'Tipo', 'Descripción']]
                 for news in news_by_month[month]:
                     data.append([
@@ -129,7 +132,7 @@ class NewsYearlyReportWizard(models.TransientModel):
                         Paragraph(news.type_id.name or "", styles['BodyText']),
                         Paragraph(news.description or "", styles['BodyText'])
                     ])
-                
+
                 table = Table(data, colWidths=[80, 80, 120, 220])
                 table.setStyle(TableStyle([
                     ('GRID', (0,0), (-1,-1), 1, colors.black),
@@ -143,10 +146,10 @@ class NewsYearlyReportWizard(models.TransientModel):
                     ('ALIGN', (0,0), (-1,-1), 'CENTER'),
                     ('FONTSIZE', (0,1), (-1,-1), 9),
                 ]))
-                
                 elements.append(table)
                 elements.append(Spacer(1, 20))
-            
+
+            # Generar PDF
             doc.build(elements)
             pdf_data = buffer.getvalue()
             buffer.close()

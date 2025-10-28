@@ -88,6 +88,7 @@ El módulo de **Novedades de Empleados para RRHH - Odoo 8** incluye funcionalida
 | **Framework**     | Odoo (OpenERP) | 8.0 |
 | **Backend** | Python | 2.7 |
 | **Frontend** | XML | - |
+| **Pillow** | Python | 2.7 o anteriores |
 | **Base de Datos** | PostgreSQL | 9.6 |
 | **Arquitectura**  | MVC Pattern | - |
 | **Dependencias**  | base, web, hr | - |
