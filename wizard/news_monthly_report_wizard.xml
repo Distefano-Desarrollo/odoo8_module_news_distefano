@@ -9,20 +9,6 @@
             <field name="target">new</field>
         </record>
 
-        <record id="news_monthly_report_wizard_button_tree" model="ir.ui.view">
-            <field name="name">news_monthly_report_wizard.button.tree</field>
-            <field name="model">odoo8_module_news_distefano.new</field>
-            <field name="inherit_id" ref="odoo8_module_news_distefano.new_tree_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//tree" position="inside">
-                    <header>
-                        <button name="%(odoo8_module_news_distefano.news_monthly_report_wizard_actions)d" string="Reporte Mensual" type="action" class="oe_highlight" groups="base.group_hr_manager"/>
-                    </header>
-                </xpath>
-            </field>
-        </record>
-
-
         <record id="news_monthly_report_wizard_form_view" model="ir.ui.view">
             <field name="name">news_monthly_report_wizard.form</field>
             <field name="model">odoo8_module_news_distefano.news_monthly_report_wizard</field>

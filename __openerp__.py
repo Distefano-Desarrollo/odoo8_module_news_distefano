@@ -8,6 +8,7 @@
     'depends': ['base', 'hr','web'],
     'data':[
         'security/ir.model.access.csv',
+        'wizard/news_monthly_report_wizard.xml',
         'views/new/new_tree_view.xml',
         'views/new/new_form_view.xml',
         'views/new/new_calendar_view.xml',
@@ -17,7 +18,6 @@
         'views/type/type_search_view.xml',
         'views/menu.xml',
         'wizard/news_yearly_report_wizard.xml',
-        'wizard/news_monthly_report_wizard.xml',
     ],
     'images': ['static/description/icon.png'],
     'installable': True,
