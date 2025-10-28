@@ -126,8 +126,8 @@ class NewsYearlyReportWizard(models.TransientModel):
                     data.append([
                         news.start_date or "",
                         news.end_date or "",
-                        news.type_id.name or "",
-                        news.description or ""
+                        Paragraph(news.type_id.name or "", styles['BodyText']),
+                        Paragraph(news.description or "", styles['BodyText'])
                     ])
                 
                 table = Table(data, colWidths=[80, 80, 120, 220])
