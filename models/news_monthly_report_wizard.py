@@ -19,11 +19,26 @@ class NewsMonthlyReportWizard(models.TransientModel):
     _description = 'Wizard para generar reporte PDF mensual por empleado'
 
     month = fields.Selection(
-        [(str(i), '{:02d}'.format(i)) for i in range(1, 13)],
+        [
+            ('1', '01 - Enero'),
+            ('2', '02 - Febrero'),
+            ('3', '03 - Marzo'),
+            ('4', '04 - Abril'),
+            ('5', '05 - Mayo'),
+            ('6', '06 - Junio'),
+            ('7', '07 - Julio'),
+            ('8', '08 - Agosto'),
+            ('9', '09 - Septiembre'),
+            ('10', '10 - Octubre'),
+            ('11', '11 - Noviembre'),
+            ('12', '12 - Diciembre')
+        ],
         string='Mes',
         required=True,
         default=lambda self: str(datetime.now().month)
     )
+
+
     year = fields.Integer(
         string='Año',
         required=True,
@@ -82,9 +97,21 @@ class NewsMonthlyReportWizard(models.TransientModel):
 
             title_style = styles['Heading1']
             title_style.alignment = 1
-            title = Paragraph("REPORTE DE NOTICIAS INTERNAS - {}/{}".format(wizard.month, wizard.year), title_style)
+
+            subtitle_style = styles['Heading2']
+            subtitle_style.alignment = 1
+            subtitle_style.fontSize = 14 
+            subtitle_style.spaceBefore = 6
+
+            title = Paragraph("REPORTE DE NOTICIAS INTERNAS", title_style)
             elements.append(title)
+
+            month_name = dict(self.fields_get(allfields=['month'])['month']['selection']).get(wizard.month, wizard.month)
+            subtitle = Paragraph("{} {}".format(month_name, wizard.year), subtitle_style)
+            elements.append(subtitle)
+
             elements.append(Spacer(1, 12))
+
 
             info_style = styles['BodyText']
 
