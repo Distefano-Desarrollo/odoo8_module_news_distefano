@@ -1,3 +1,3 @@
 import new
 import type
-import news_report_wizard
+import news_yearly_report_wizard

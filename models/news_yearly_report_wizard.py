@@ -13,9 +13,9 @@ from reportlab.platypus import Image
 from reportlab.lib.units import inch
 from openerp.modules import get_module_resource
 
-class NewsReportWizard(models.TransientModel):
-    _name = 'odoo8_module_news_distefano.news_report_wizard'
-    _description = 'Wizard para generar reporte PDF de noticias internas'
+class NewsYearlyReportWizard(models.TransientModel):
+    _name = 'odoo8_module_news_distefano.news_yearly_report_wizard'
+    _description = 'Wizard para generar reporte PDF de noticias internas por codigo de empleado(anual)'
 
     new_id = fields.Many2one(
         'odoo8_module_news_distefano.new',
@@ -25,13 +25,13 @@ class NewsReportWizard(models.TransientModel):
     )
 
     
-    file_data = fields.Binary('PDF data', readonly=True)
+    file_data = fields.Binary('Archivo PDF (Anual)', readonly=True)
     file_name = fields.Char('Archivo', size=64)
     
     @api.model
     def default_get(self, fields_list):
         """Selecciona automáticamente el registro base desde donde se abrió el wizard"""
-        res = super(NewsReportWizard, self).default_get(fields_list)
+        res = super(NewsYearlyReportWizard, self).default_get(fields_list)
         active_id = self._context.get('active_id')
         if active_id:
             res['new_id'] = active_id
@@ -39,8 +39,8 @@ class NewsReportWizard(models.TransientModel):
 
     
     @api.multi
-    def generate_news_pdf(self):
-        """Genera el PDF de noticias agrupadas por mes para un empleado"""
+    def generate_employee_yearly_news_pdf(self):
+        """Genera el PDF de noticias anual para un empleado agrupadas por mes"""
         for wizard in self:
             news_base = wizard.new_id
             employee = news_base.employee_id
@@ -57,8 +57,8 @@ class NewsReportWizard(models.TransientModel):
             logo_path = get_module_resource('odoo8_module_news_distefano', 'static', 'description', 'logo.png')
             logo = Image(logo_path)
 
-            max_width = 6 * inch   # ancho máximo
-            max_height = 1.5 * inch  # altura máxima que consideramos profesional
+            max_width = 6 * inch
+            max_height = 1.5 * inch
 
             if logo.imageWidth > max_width or logo.imageHeight > max_height:
                 ratio = min(max_width / logo.imageWidth, max_height / logo.imageHeight)
@@ -73,7 +73,7 @@ class NewsReportWizard(models.TransientModel):
             elements.append(Spacer(1, 12))
             
             title_style = styles['Heading1']
-            title_style.alignment = 1  # Centrado
+            title_style.alignment = 1
             title = Paragraph("REPORTE DE NOTICIAS INTERNAS", title_style)
             elements.append(title)
             elements.append(Spacer(1, 12))
@@ -98,11 +98,14 @@ class NewsReportWizard(models.TransientModel):
             }
             
             news_by_month = {}
+            report_year = None
             for news in news_records:
                 if news.start_date:
                     dt = fields.Date.from_string(news.start_date)
                     month = dt.month
                     year = dt.year
+                    if not report_year:
+                        report_year = year
                     month_year = "{} {}".format(spanish_months[month], year)
                     if month_year not in news_by_month:
                         news_by_month[month_year] = []
@@ -147,15 +150,16 @@ class NewsReportWizard(models.TransientModel):
             doc.build(elements)
             pdf_data = buffer.getvalue()
             buffer.close()
-            
+
             wizard.write({
                 'file_data': base64.b64encode(pdf_data),
-                'file_name': 'Noticias_{0}_{1}.pdf'.format(employee.name.replace(" ", "_"), datetime.now().strftime("%Y%m%d"))
+                'file_name': 'Noticias_{0}_{1}.pdf'.format(employee.name.replace(" ", "_"), report_year)
             })
+
         
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'odoo8_module_news_distefano.news_report_wizard',
+            'res_model': 'odoo8_module_news_distefano.news_yearly_report_wizard',
             'view_mode': 'form',
             'view_type': 'form',
             'res_id': self.id,

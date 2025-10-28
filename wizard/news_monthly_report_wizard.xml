@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="news_monthly_report_wizard_actions" model="ir.actions.act_window">
+            <field name="name">Reporte Mensual de Noticias</field>
+            <field name="res_model">odoo8_module_news_distefano.news_monthly_report_wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_news_monthly_report" name="Reporte Novedades Mensual" parent="odoo8_module_news_distefano.submenu_news" action="news_monthly_report_wizard_actions" groups="base.group_hr_manager"/>
+
+        <record id="news_monthly_report_wizard_button_tree" model="ir.ui.view">
+            <field name="name">news_monthly_report_wizard.button.tree</field>
+            <field name="model">odoo8_module_news_distefano.new</field>
+            <field name="inherit_id" ref="odoo8_module_news_distefano.new_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="before">
+                    <header>
+                        <button name="%(odoo8_module_news_distefano.news_monthly_report_wizard_actions)d" string="Reporte Mensual" type="action" class="oe_highlight" groups="base.group_hr_manager"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="news_monthly_report_wizard_form_view" model="ir.ui.view">
+            <field name="name">news_monthly_report_wizard.form</field>
+            <field name="model">odoo8_module_news_distefano.news_monthly_report_wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reporte Mensual de Noticias por Empleado">
+                    <group>
+                        <field name="month"/>
+                        <field name="year"/>
+                        <field name="file_data" filename="fiale_name" widget="binary" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="generate_monthly_employee_news_pdf" string="Generar PDF" type="object" class="oe_highlight"/>
+                        <button string="Cerrar" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
