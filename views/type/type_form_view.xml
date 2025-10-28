@@ -20,8 +20,9 @@
                         <group string="Información General">
                             <div class="oe_form_group">
                                 <p class="text-muted">
-                                    <strong>Propósito:</strong> Los tipos de noticias permiten categorizar las comunicaciones 
-                                    internas para una mejor organización y filtrado.
+                                    <strong>Propósito:</strong> Los tipos de noticias permiten a Recursos Humanos clasificar y organizar 
+                                    la información relacionada con los empleados, como reportes de planilla, ausencias o incidencias laborales, 
+                                    para facilitar su seguimiento y gestión.
                                 </p>
                             </div>
                         </group>
@@ -31,33 +32,33 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <strong>Avisos Importantes</strong>
+                                                <strong>Vacaciones</strong>
                                             </td>
-                                            <td>Comunicados urgentes o críticos</td>
+                                            <td>Registro y notificación de períodos de descanso del personal</td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <strong>Eventos Corporativos</strong>
+                                                <strong>Ausencia por Maternidad/Paternidad</strong>
                                             </td>
-                                            <td>Celebraciones, reuniones, actividades</td>
+                                            <td>Notificación de licencias legales por maternidad o paternidad</td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <strong>Recordatorios</strong>
+                                                <strong>Ausencia Injustificada</strong>
                                             </td>
-                                            <td>Fechas límite, procedimientos, políticas</td>
+                                            <td>Incidencias de ausencias no justificadas por los empleados</td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <strong>Reconocimientos</strong>
+                                                <strong>Enfermedad</strong>
                                             </td>
-                                            <td>Logros del personal, felicitaciones</td>
+                                            <td>Reportes de incapacidad temporal por enfermedad</td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <strong>Procedimientos</strong>
+                                                <strong>Otros Incidentes Laborales</strong>
                                             </td>
-                                            <td>Nuevas políticas, cambios organizacionales</td>
+                                            <td>Situaciones que afectan el desempeño o cumplimiento de funciones</td>
                                         </tr>
                                     </tbody>
                                 </table>

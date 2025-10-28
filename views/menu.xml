@@ -35,6 +35,7 @@
         <menuitem id="submenu_news" name="Control de Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
         <menuitem id="submenu_news_item" name="Noticias Empleados" parent="submenu_news" action="new_actions" groups="base.group_hr_manager"/>
         <menuitem id="submenu_news_item_calendar" name="Calendario Noticias" parent="submenu_news" action="new_actions_calendar" groups="base.group_hr_manager"/>
+        <menuitem id="submenu_news_monthly_report" name="Reporte Mensual de Noticias" parent="submenu_news" action="news_monthly_report_wizard_actions" groups="base.group_hr_manager"/>
 
         <menuitem id="submenu_type" name="Tipos de Noticias" parent="primary_menu_hr" groups="base.group_hr_manager"/>
         <menuitem id="submenu_type_item" name="Clasificacion Noticias" parent="submenu_type" action="type_actions" groups="base.group_hr_manager"/>

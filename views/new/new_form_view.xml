@@ -19,7 +19,7 @@
                         <group col="4">
                             <group string="Fechas" col="2">
                                 <field name="start_date" string="Fecha inicio" required="1"/>
-                                <field name="end_date" string="Fecha finalizacion"/>
+                                <field name="end_date" string="Fecha finalizacion" placeholder="(dejar vacío si es solo un día)"/>
                             </group>
                             <group string="Datos de empleado" col="2">
                                 <field name="employee_id" string="Empleado" placeholder="Seleccionar empleado..." options="{'no_create': True}"/>
