@@ -1,3 +1,4 @@
 import new
 import type
 import news_yearly_report_wizard
+import news_monthly_report_wizard

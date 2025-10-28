@@ -9,8 +9,6 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem id="menu_news_monthly_report" name="Reporte Novedades Mensual" parent="odoo8_module_news_distefano.submenu_news" action="news_monthly_report_wizard_actions" groups="base.group_hr_manager"/>
-
         <record id="news_monthly_report_wizard_button_tree" model="ir.ui.view">
             <field name="name">news_monthly_report_wizard.button.tree</field>
             <field name="model">odoo8_module_news_distefano.new</field>
