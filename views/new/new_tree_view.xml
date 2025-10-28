@@ -1,17 +1,21 @@
-<record id="new_tree_view" model="ir.ui.view">
-    <field name="name">new.tree_view</field>
-    <field name="model">odoo8_module_news_distefano.new</field>
-    <field name="arch" type="xml">
-        <tree string="Listado noticias empleados">
-            <header>
-                <button name="%(odoo8_module_news_distefano.news_monthly_report_wizard_actions)d" string="Reporte Mensual" type="action" class="oe_highlight" groups="base.group_hr_manager"/>
-            </header>
-            <field name="name" string="Codigo"/>
-            <field name="type_id" string="Tipo"/>
-            <field name="employee_id" string="Empleado"/>
-            <field name="start_date" string="Inicio"/>
-            <field name="end_date" string="Fin"/>
-            <field name="description" string="Detalle" />
-        </tree>
-    </field>
-</record>
+<openerp>
+    <data>
+        <record id="new_tree_view" model="ir.ui.view">
+            <field name="name">new.tree_view</field>
+            <field name="model">odoo8_module_news_distefano.new</field>
+            <field name="arch" type="xml">
+                <tree string="Listado noticias empleados">
+                    <header>
+                        <button name="%(odoo8_module_news_distefano.news_monthly_report_wizard_actions)d" string="Reporte Mensual" type="action" class="oe_highlight" groups="base.group_hr_manager"/>
+                    </header>
+                    <field name="name" string="Codigo"/>
+                    <field name="type_id" string="Tipo"/>
+                    <field name="employee_id" string="Empleado"/>
+                    <field name="start_date" string="Inicio"/>
+                    <field name="end_date" string="Fin"/>
+                    <field name="description" string="Detalle" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
