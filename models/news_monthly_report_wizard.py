@@ -118,7 +118,9 @@ class NewsMonthlyReportWizard(models.TransientModel):
             for emp_data in news_by_employee.values():
                 employee = emp_data['employee']
 
-                emp_title = Paragraph("<b>{}</b>".format(employee.name), styles['Heading2'])
+                emp_title_style = styles['Heading4']
+                emp_title_style.alignment = 0
+                emp_title = Paragraph("<b>{}</b>".format(employee.name), emp_title_style)
                 elements.append(emp_title)
                 elements.append(Spacer(1, 10))
 
