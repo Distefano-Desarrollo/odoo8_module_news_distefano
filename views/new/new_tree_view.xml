@@ -5,7 +5,7 @@
             <field name="name">new.tree_view</field>
             <field name="model">odoo8_module_news_distefano.new</field>
             <field name="arch" type="xml">
-                <tree string="Listado noticias empleados" delete="1" editable="bottom">
+                <tree string="Listado noticias empleados">
                     <field name="name" string="Codigo"/>
                     <field name="type_id" string="Tipo"/>
                     <field name="employee_id" string="Empleado"/>

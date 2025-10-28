@@ -5,7 +5,7 @@
             <field name="name">type.tree_view</field>
             <field name="model">odoo8_module_news_distefano.type</field>
             <field name="arch" type="xml">
-                <tree string="Clasificacion para tipos de noticias" delete="1" editable="bottom">
+                <tree string="Clasificacion para tipos de noticias">
                     <field name="name" string="Tipo"/>
                 </tree>
             </field>
