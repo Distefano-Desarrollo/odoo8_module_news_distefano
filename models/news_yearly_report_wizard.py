@@ -13,9 +13,9 @@ from openerp.modules import get_module_resource
 from babel.dates import format_date
 import unicodedata
 
-class NewsReportWizard(models.TransientModel):
-    _name = 'odoo8_module_news_distefano.news_report_wizard'
-    _description = 'Wizard para generar reporte PDF de noticias internas'
+class NewsYearlyReportWizard(models.TransientModel):
+    _name = 'odoo8_module_news_distefano.news_yearly_report_wizard'
+    _description = 'Wizard para generar reporte PDF de noticias internas por codigo de empleado(anual)'
 
     new_id = fields.Many2one(
         'odoo8_module_news_distefano.new',
@@ -24,19 +24,20 @@ class NewsReportWizard(models.TransientModel):
         help='Selecciona el registro de noticia desde el cual generar el reporte'
     )
 
-    file_data = fields.Binary('PDF data', readonly=True)
+    
+    file_data = fields.Binary('Archivo PDF (Anual)', readonly=True)
     file_name = fields.Char('Archivo', size=64)
     @api.model
     def default_get(self, fields_list):
         """Selecciona automáticamente el registro base desde donde se abrió el wizard"""
-        res = super(NewsReportWizard, self).default_get(fields_list)
+        res = super(NewsYearlyReportWizard, self).default_get(fields_list)
         active_id = self._context.get('active_id')
         if active_id:
             res['new_id'] = active_id
         return res
     @api.multi
-    def generate_news_pdf(self):
-        """Genera el PDF de noticias agrupadas por mes para un empleado"""
+    def generate_employee_yearly_news_pdf(self):
+        """Genera el PDF de noticias anual para un empleado agrupadas por mes"""
         for wizard in self:
             news_base = wizard.new_id
             employee = news_base.employee_id
@@ -58,10 +59,18 @@ class NewsReportWizard(models.TransientModel):
             # Logo
             logo_path = get_module_resource('odoo8_module_news_distefano', 'static', 'description', 'logo.png')
             logo = Image(logo_path)
-            max_width, max_height = 6 * inch, 1.5 * inch
-            ratio = min(max_width / logo.imageWidth, max_height / logo.imageHeight)
-            logo.drawWidth = logo.imageWidth * ratio
-            logo.drawHeight = logo.imageHeight * ratio
+
+            max_width = 6 * inch
+            max_height = 1.5 * inch
+
+            if logo.imageWidth > max_width or logo.imageHeight > max_height:
+                ratio = min(max_width / logo.imageWidth, max_height / logo.imageHeight)
+                logo.drawWidth = logo.imageWidth * ratio
+                logo.drawHeight = logo.imageHeight * ratio
+            else:
+                logo.drawWidth = logo.imageWidth
+                logo.drawHeight = logo.imageHeight
+
             logo.hAlign = 'CENTER'
             elements.append(logo)
             elements.append(Spacer(1, 12))
@@ -69,7 +78,8 @@ class NewsReportWizard(models.TransientModel):
             # Título
             title_style = styles['Heading1']
             title_style.alignment = 1
-            elements.append(Paragraph("REPORTE DE NOTICIAS INTERNAS", title_style))
+            title = Paragraph("REPORTE DE NOTICIAS INTERNAS", title_style)
+            elements.append(title)
             elements.append(Spacer(1, 12))
 
             # Información del empleado
@@ -84,37 +94,32 @@ class NewsReportWizard(models.TransientModel):
             for info in employee_info:
                 elements.append(Paragraph(info, info_style))
             elements.append(Spacer(1, 20))
-
-            # Agrupar noticias por mes
+            
+            spanish_months = {
+                1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+                5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+                9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+            }
+            
             news_by_month = {}
+            report_year = None
             for news in news_records:
                 if news.start_date:
-                    start_dt = fields.Date.from_string(news.start_date)
-                    # Aseguramos siempre formato "octubre 2025"
-                    month_year = format_date(start_dt, "LLLL yyyy", locale='es_ES')
-                    month_year = month_year.lower()
+                    dt = fields.Date.from_string(news.start_date)
+                    month = dt.month
+                    year = dt.year
+                    if not report_year:
+                        report_year = year
+                    month_year = "{} {}".format(spanish_months[month], year)
                     if month_year not in news_by_month:
                         news_by_month[month_year] = []
                     news_by_month[month_year].append(news)
-
-            # Función segura de ordenamiento
-            def month_key(x):
-                meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-                        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
-                partes = x.split()
-                if len(partes) == 2:
-                    nombre_mes, anio = partes
-                else:
-                    nombre_mes = partes[0]
-                    anio = str(datetime.now().year)
-                nombre_mes = unicodedata.normalize('NFD', nombre_mes).encode('ascii', 'ignore').decode('utf-8').lower().strip()
-                if nombre_mes not in meses:
-                    raise Warning(u"Mes desconocido en el formato: {0}".format(nombre_mes))
-                return (int(anio), meses.index(nombre_mes) + 1)
-
-            sorted_months = sorted(news_by_month.keys(), key=month_key)
-
-            # Contenido por mes
+            
+            sorted_months = sorted(
+                news_by_month.keys(),
+                key=lambda x: (int(x.split()[1]), list(spanish_months.values()).index(x.split()[0]))
+            )
+            
             for month in sorted_months:
                 elements.append(Paragraph("<b>{0}</b>".format(month.capitalize()), styles['Heading2']))
                 elements.append(Spacer(1, 10))
@@ -122,10 +127,10 @@ class NewsReportWizard(models.TransientModel):
                 data = [['Fecha Inicio', 'Fecha Fin', 'Tipo', 'Descripción']]
                 for news in news_by_month[month]:
                     data.append([
-                        datetime.strptime(news.start_date, '%Y-%m-%d').strftime('%d/%m/%Y') if news.start_date else "",
-                        datetime.strptime(news.end_date, '%Y-%m-%d').strftime('%d/%m/%Y') if news.end_date else "",
-                        news.type_id.name or "",
-                        news.description or ""
+                        news.start_date or "",
+                        news.end_date or "",
+                        Paragraph(news.type_id.name or "", styles['BodyText']),
+                        Paragraph(news.description or "", styles['BodyText'])
                     ])
 
                 table = Table(data, colWidths=[80, 80, 120, 220])
@@ -149,18 +154,15 @@ class NewsReportWizard(models.TransientModel):
             pdf_data = buffer.getvalue()
             buffer.close()
 
-            # Guardar archivo en el wizard
             wizard.write({
                 'file_data': base64.b64encode(pdf_data),
-                'file_name': 'Noticias_{0}_{1}.pdf'.format(
-                    employee.name.replace(" ", "_"),
-                    datetime.now().strftime("%Y%m%d")
-                )
+                'file_name': 'Noticias_{0}_{1}.pdf'.format(employee.name.replace(" ", "_"), report_year)
             })
-        # Retornar vista del wizard con el PDF disponible
+
+        
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'odoo8_module_news_distefano.news_report_wizard',
+            'res_model': 'odoo8_module_news_distefano.news_yearly_report_wizard',
             'view_mode': 'form',
             'view_type': 'form',
             'res_id': self.id,
