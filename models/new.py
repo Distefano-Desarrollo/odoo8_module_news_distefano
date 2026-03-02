@@ -81,6 +81,7 @@ class New(models.Model):
             vals['end_date'] = vals['start_date']
         return super(New, self).create(vals)
 
+    @api.multi
     def write(self, vals):
         for rec in self:
             if not vals.get('end_date') and ('start_date' in vals or not rec.end_date):
